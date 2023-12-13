@@ -53,7 +53,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log(err);
     })
 
-app.use("/static", express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res, next) => {
     setImmediate(() => { next( new Error('it is an error')); })
