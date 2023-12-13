@@ -9,6 +9,10 @@ const cookieEncryptionKey = ['key1', 'key2'];
 const mainRouter = require('./routers/main.router');
 const usersRouter = require('./routers/users.router');
 const postsRouter = require('./routers/posts.router');
+const commentsRouter = require('./routers/comments.router');
+const profileRouter = require('./routers/profile.router');
+const likesRouter = require('./routers/likes.router');
+const friendsRouter = require('./routers/friends.router');
 const port = process.env.SERVER_PORT;
 
 app.use(cookieSession({
@@ -62,6 +66,10 @@ app.use((error, req, res, next) => {
 app.use('/', mainRouter);
 app.use('/auth', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/posts/:id/comments', commentsRouter);
+app.use('/profile/:id', profileRouter);
+app.use('/friends', friendsRouter);
+app.use('/posts/:id/like', likesRouter);
 
 app.listen(port, () => {
     console.log(`listening on ${port}`);
