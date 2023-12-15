@@ -14,10 +14,11 @@ function checkNotAuthenticated(req, res, next) {
     next();
 }
 
-function checkPostOwnerShip (req, res, next) {
-    if(req.isAuthenticated()) {
-        Post.findById(req.params.id, (err, post) => {
-            if(err || !post) {
+async function checkPostOwnerShip (req, res, next) {
+    try {
+        if(req.isAuthenticated()) {
+        const post = Post.findById(req.params.id);
+            if(!post) {
                 req.flash('error', '포스트가 없거나 에러가 발생함');
                 res.redirect('posts');
             } else {
@@ -29,11 +30,16 @@ function checkPostOwnerShip (req, res, next) {
                     res.redirect('back');
                 }
             }
-        })
-    } else {
-        req.flash('error', '로그인 먼저 해주세요.');
-        res.redirect('/login');
+        } else {
+            req.flash('error', '로그인 먼저 해주세요.');
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error('Error in checkPostOwnership:', err);
+        req.flash('error', '에러가 발생했습니다.');
+        return res.redirect('back');
     }
+    
 }
 
 module.exports = {

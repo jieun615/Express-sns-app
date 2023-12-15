@@ -30,10 +30,8 @@ router.post('/', checkAuthenticated, upload, async (req, res, next) => {
                 username: req.user.username
             }
         });
-        res.flash('success', '포스트 생성 성공');
         res.redirect("posts");
     } catch (err) {
-        res.flash('error', '포스트 생성 실패');
         res.redirect("posts");
     };
 });
