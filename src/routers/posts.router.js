@@ -57,4 +57,14 @@ router.get('/:id/edit', checkPostOwnerShip, (req, res) => {
     })
 })
 
+router.put('/:id', checkPostOwnerShip, (req, res) => {
+    Post.findByIdAndUpdate(req.params.id, req.body, (err, post) => {
+        if(err) {
+            res.redirect('/posts');
+        } else {
+            res.redirect('/posts');
+        }
+    })
+})
+
 module.exports = router;

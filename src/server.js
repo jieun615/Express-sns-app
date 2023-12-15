@@ -5,6 +5,7 @@ const app = express();
 const path = require('path');
 const passport = require('passport');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const { checkAuthenticated, checkNotAuthenticated } = require('./middlewares/auth');
 const cookieEncryptionKey = ['key1', 'key2'];
 const mainRouter = require('./routers/main.router');
@@ -44,6 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
 app.use(flash());
+app.use(methodOverride('_method'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
