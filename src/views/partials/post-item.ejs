@@ -15,7 +15,7 @@
                         <img src="/assets/images/ellipsis.png" height="20px">
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item text-center" href="/posts/<%= post._id %>">Edit</a></li>
+                        <li><a class="dropdown-item text-center" href="/posts/<%= post._id %>/edit">Edit</a></li>
                         <li>
                             <form class="dropdown-item text-center" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
                                 <butto type="submit" class="no-outline">Delete</button>

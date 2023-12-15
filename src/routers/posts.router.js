@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkPostOwnerShip } = require('../middlewares/auth');
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
 const multer = require('multer');
@@ -52,5 +52,11 @@ router.get('/', checkAuthenticated, (req, res) => {
             console.log(err);
         });
 });
+
+router.get('/:id/edit', checkPostOwnerShip, (req, res) => {
+    res.render('posts/edit', {
+        post: req.post
+    })
+})
 
 module.exports = router;
