@@ -1,11 +1,11 @@
 <%- include('../partials/header') %>
-<div>
+<div class="container">
     <div style="max-width: 600px; margin: 1rem auto;">
         <%- include('../partials/create-post') %>
     </div>
-    <% posts.forEach((post) =>  { %>
+    <% posts.forEach((post) => { %>
         <% if (post.author.id.equals(currentUser._id) || 
-        currentUser.friends.find(friend === post.author.id.toString())) { %>
+        currentUser.friends.find(friend => friend === post.author.id.toString())) { %>
         <div style="max-width: 600px; margin: 1rem auto;">
             <%- include('../partials/post-item', { post: post }) %>
         </div>
