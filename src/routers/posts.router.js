@@ -36,7 +36,6 @@ router.post('/', checkAuthenticated, upload, async (req, res, next) => {
     };
 });
 
-
 router.get('/', checkAuthenticated, (req, res) => {
     Post.find()
         .populate('comments')
