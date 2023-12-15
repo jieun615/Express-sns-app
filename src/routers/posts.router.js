@@ -30,9 +30,11 @@ router.post('/', checkAuthenticated, upload, async (req, res, next) => {
                 username: req.user.username
             }
         });
+        res.flash('success', '포스트 생성 성공');
         res.redirect("posts");
     } catch (err) {
-        next(err);
+        res.flash('error', '포스트 생성 실패');
+        res.redirect("posts");
     };
 });
 
@@ -42,8 +44,8 @@ router.get('/', checkAuthenticated, (req, res) => {
         .sort({ createdAt: -1 })
         .then((posts) => {
             res.render('posts', {
-                    posts: posts,
-                    currentUser: req.user
+                posts: posts,
+                currentUser: req.user
             });
         })
         .catch((err) => {

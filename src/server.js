@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 const path = require('path');
 const passport = require('passport');
+const flash = require('connect-flash');
 const { checkAuthenticated, checkNotAuthenticated } = require('./middlewares/auth');
 const cookieEncryptionKey = ['key1', 'key2'];
 const mainRouter = require('./routers/main.router');
@@ -42,6 +43,8 @@ require('./config/passport');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
+app.use(flash());
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -55,12 +58,28 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/send', (req, res) => {
+    req.flash('post success', '포스트가 생성되었습니다.');
+    res.redirect('/receive');
+});
+
+app.get('/receive', (req, res) => {
+    res.send(req.flash('post success')[0]);
+})
+
 app.get('/', (req, res, next) => {
     setImmediate(() => { next( new Error('it is an error')); })
 })
 
 app.use((error, req, res, next) => {
     res.json({ message: error.message });
+})
+
+app.use((req, res, next) => {
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    res.locals.currentUser = req.user;
+    next();
 })
 
 app.use('/', mainRouter);
