@@ -17,7 +17,7 @@ function checkNotAuthenticated(req, res, next) {
 async function checkPostOwnerShip (req, res, next) {
     try {
         if(req.isAuthenticated()) {
-        const post = Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id);
             if(!post) {
                 req.flash('error', '포스트가 없거나 에러가 발생함');
                 res.redirect('posts');
@@ -35,7 +35,7 @@ async function checkPostOwnerShip (req, res, next) {
             res.redirect('/login');
         }
     } catch (err) {
-        console.error('Error in checkPostOwnership:', err);
+        console.error('Error in checkPostOwnerShip:', err);
         req.flash('error', '에러가 발생했습니다.');
         return res.redirect('back');
     }
