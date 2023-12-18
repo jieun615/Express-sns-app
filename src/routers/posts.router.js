@@ -5,6 +5,7 @@ const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
 const multer = require('multer');
 const path = require('path');
+const { channel } = require('diagnostics_channel');
 
 const storageEngine = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -58,13 +59,14 @@ router.get('/:id/edit', checkPostOwnerShip, (req, res) => {
 })
 
 router.put('/:id', checkPostOwnerShip, async (req, res) => {
-    try {
-        const post = await Post.findByIdAndUpdate(req.params.id, req.body)
+    await Post.findByIdAndUpdate(req.params.id, req.body)
+    res.redirect('/posts');
+})
+
+router.delete('/:id', checkPostOwnerShip, (req, res) => {
+    Post.findByIdAndDelete(req.params.id, (err, post) => {
         res.redirect('/posts');
-    }
-    catch (err) {
-        res.redirect('/posts');
-    }
+    })
 })
 
 module.exports = router;
