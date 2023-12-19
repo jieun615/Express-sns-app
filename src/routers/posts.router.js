@@ -63,10 +63,9 @@ router.put('/:id', checkPostOwnerShip, async (req, res) => {
     res.redirect('/posts');
 })
 
-router.delete('/:id', checkPostOwnerShip, (req, res) => {
-    Post.findByIdAndDelete(req.params.id, (err, post) => {
-        res.redirect('/posts');
-    })
+router.delete('/:id', checkPostOwnerShip, async (req, res) => {
+    await Post.findByIdAndDelete(req.params.id)
+    res.redirect('/posts');
 })
 
 module.exports = router;

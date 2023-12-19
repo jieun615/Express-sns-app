@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkCommentOwnership } = require('../middlewares/auth');
 const router = express.Router({
     mergeParams: true
 });
@@ -24,10 +24,11 @@ router.post('/', checkAuthenticated, async (req, res) => {
     } catch (err) {
         res.redirect('back');
     }
+})
 
-
-
-    
+router.delete('/:commentId', checkCommentOwnership, async (req, res) => {
+    await Comment.findByIdAndDelete(req.params.commentId)
+    res.redirect('back');
 })
 
 module.exports = router;
