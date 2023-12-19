@@ -36,7 +36,7 @@
         <div class="collapse show" id="post<%= post._id %>">
             <% if (post.comments.length > 0) { %>
                 <div class="card-body comment-section">
-                    <% post.comment.forEach((comment) => { %>
+                    <% post.comments.forEach((comment) => { %>
                         <div class="d-flex justify-content-between">
                             <div class="font-weight-bold">
                                 <%= comment.author.username %>
@@ -45,7 +45,7 @@
                                 <%= comment.createdAt.toDateString() %>
                             </small>
                         </div>
-                        <div>
+                        <div class="d-flex justify-content-between mt-2">
                             <p>
                                 <%= comment.text %>
                             </p>
