@@ -31,4 +31,16 @@ router.delete('/:commentId', checkCommentOwnership, async (req, res) => {
     res.redirect('back');
 })
 
+router.get('/:commentId/edit',checkCommentOwnership, async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    try {
+        res.render('comments/edit', {
+            post: post,
+            comment: req.comment,
+        })
+    } catch (err) {
+        res.redirect('back');
+    }
+})
+
 module.exports = router;

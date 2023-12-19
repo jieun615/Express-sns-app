@@ -22,7 +22,6 @@ async function checkPostOwnerShip (req, res, next) {
                 req.post = post;
                 next();
             } else {
-                req.flash('error', '권한이 없음');
                 res.redirect('back');
             }
         } catch (err) {
@@ -38,6 +37,7 @@ async function checkCommentOwnership(req, res, next) {
         const comment = await Comment.findById(req.params.commentId)
         try {
             if(comment.author.id.equals(req.user._id)) {
+                req.comment = comment;
                 next();
             } else {
                 res.redirect('back');
