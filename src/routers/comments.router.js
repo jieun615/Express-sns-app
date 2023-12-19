@@ -43,4 +43,13 @@ router.get('/:commentId/edit',checkCommentOwnership, async (req, res) => {
     }
 })
 
+router.put('/:commentId', checkCommentOwnership, async (req, res) => {
+    await Comment.findByIdAndUpdate(req.params.commentId, req.body)
+    try {
+        res.redirect('/posts');
+    } catch(err) {
+        res.redirect('back');
+    }
+})
+
 module.exports = router;
