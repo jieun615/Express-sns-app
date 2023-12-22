@@ -35,7 +35,7 @@
         <hr class="mt-1">
         <div class="d-flex justify-content-between">
             <div class="row">
-                <form action="/posts/<%= post._id %>/like?_method_PUT" method="POST">
+                <form action="/posts/<%= post._id %>/like?_method=PUT" method="POST">
                     <% if (post.likes.find(like => like === currentUser._id.toString())) { %>
                         <button type="submit" class="no-outline">
                             <img src="/assets/images/like-1.png" height="20px">
