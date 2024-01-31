@@ -8,10 +8,10 @@ router.get('/', checkAuthenticated, async (req, res) => {
         try {
             res.render('friends', {
                 users : users
-            })
+            });
         } catch (err) {
             res.redirect('/posts');
-        }
+        };
 });
 
 module.exports = router;
