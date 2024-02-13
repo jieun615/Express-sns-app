@@ -22,7 +22,7 @@
                                             <form action="/friends/<%= friend.id %>/accept-friend-request?_method=PUT" method="POST" class="me-3">
                                                 <button class="btn btn-primary btn-sm" type="submit">친구 추가 요청 수락</button>
                                             </form>
-                                            <form action="/friends/<%= friend.id %>/remove-friend-request?_method=PUT" method="POST">
+                                            <form action="/friends/<%= currentUser._id %>/remove-friend-request/<%= friend.id %>?_method=PUT" method="POST">
                                                 <button class="btn btn-primary btn-sm" type="submit">친구 추가 요청 거절</button>
                                             </form>
                                         </div>

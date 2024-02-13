@@ -67,4 +67,27 @@ router.put('/:id/accept-friend-request', checkAuthenticated, async (req, res) =>
     })
 })
 
+router.put('/:id/remove-friend', checkAuthenticated, async (req, res) => {
+    const user = await User.findById(req.params.id, (err, user) => {
+        try {
+            User.findByIdAndUpdate(user._id, {
+                friends: user.friends.filter(friendId => friendId !== req.user._id.toString())
+            }, (err, _) => {
+                if(err) {
+                    res.redirect('back');
+                } else {
+                    User.findByIdAndUpdate(req.user._id, {
+                        friends: req.user.friends.filter(friendId => friendId !== req.params.id.toString())
+                    }, (err, _) => {
+                        res.redirect('back');
+                    })
+                }
+                
+            })
+        } catch (err) {
+            res.redirect('back');
+        }
+    })
+})
+
 module.exports = router;
