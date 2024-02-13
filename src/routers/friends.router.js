@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/users.model');
 const { checkAuthenticated } = require('../middlewares/auth');
+const { sendDataToProcessId } = require('pm2');
 const router = express.Router();
 
 router.get('/', checkAuthenticated, async (req, res) => {
@@ -38,6 +39,29 @@ router.put('/:firstId/remove-friend-request/:secondId', checkAuthenticated, asyn
                 res.redirect('back');
             })
         } catch (err) {
+            res.redirect('back');
+        }
+    })
+})
+
+router.put('/:id/accept-friend-request', checkAuthenticated, async (req, res) => {
+    const senderUser = User.findById(req.params.id, (err, senderUser) => {
+        try {
+            User.findByIdAndUpdate(senderUser._id, {
+                friends: senderUser.friends.concat([req.user._id])
+            }, (err, _) => {
+                if (err) {
+                    res.redirect('back');
+                } else {
+                    User.findByIdAndUpdate(req.user._id, {
+                        friends: req.user.friends.concat([senderUser._id]),
+                        friendsRequests: req.user.friendsRequests.filter(friendId => friendId !== senderUser._id.toString())
+                    }, (err, _) => {
+                        res.redirect('back');
+                    })
+                }
+            })
+        } catch (err) { 
             res.redirect('back');
         }
     })
