@@ -50,7 +50,25 @@ async function checkCommentOwnership(req, res, next) {
     }
 }
 
+async function checkIsMe(req, res, next) {
+    if(req.isAuthenticated()) {
+        const user = User.findById(req.params.id)
+            try {
+                if(user._id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect('/profile/' + req.params.id);
+                }
+            } catch (err) {
+                res.redirect('/profile/' + req.params.id);
+            }
+    } else {
+        res.redirect('/login');
+    }
+}
+
 module.exports = {
+    checkIsMe,
     checkCommentOwnership,
     checkPostOwnerShip,
     checkAuthenticated,
