@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkAuthenticated } = require('../middlewares/auth');
+const { checkAuthenticated, checkIsMe } = require('../middlewares/auth');
 const router = express.Router({
     mergeParams: true
 });
@@ -23,6 +23,12 @@ router.get('/', checkAuthenticated, async (req, res) => {
     } catch (err) {
         res.redirect('back');
     }
+})
+
+router.get('/edit', checkIsMe, (req, res) => {
+    res.render('profile/edit', {
+        user: req.user
+    })
 })
 
 module.exports = router;

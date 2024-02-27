@@ -1,5 +1,6 @@
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model')
+const User = require('../models/users.model');
 function checkAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
