@@ -31,4 +31,13 @@ router.get('/edit', checkIsMe, (req, res) => {
     })
 })
 
+router.put('/', checkIsMe, async (req, res) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body)
+    try {
+        res.redirect('/profile/' + req.params.id);
+    } catch (err) {
+        res.redirect('back');
+    }
+})
+
 module.exports = router;
